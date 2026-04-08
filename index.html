@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cybersecurity Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1916;
+    --muted: #6b6860;
+    --accent: #1a4f3a;
+    --accent2: #c8f0d8;
+    --accent-light: #eaf5ef;
+    --tag-bg: #f0ede6;
+    --danger: #c0392b;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(247,246,242,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 56px;
+  }
+  .nav-logo { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--accent); letter-spacing: -0.02em; }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--muted); font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+  .admin-btn {
+    font-size: 12px; font-family: var(--mono); padding: 5px 12px;
+    border: 1px solid var(--border); border-radius: 6px; background: transparent;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .admin-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; max-width: 920px; margin: 0 auto; }
+  .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
+  h2 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; }
+  h3 { font-size: 1.1rem; font-weight: 500; }
+
+  /* HERO */
+  #hero { padding-top: 6rem; padding-bottom: 4rem; }
+  .hero-subtitle { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin-top: 1.2rem; line-height: 1.7; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2rem; }
+  .tag { font-family: var(--mono); font-size: 11px; padding: 4px 10px; border-radius: 4px; background: var(--tag-bg); color: var(--muted); font-weight: 500; }
+  .tag.green { background: var(--accent-light); color: var(--accent); }
+  .hero-cta { display: flex; gap: 12px; margin-top: 2.5rem; flex-wrap: wrap; }
+  .btn { padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; font-family: var(--sans); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #15412f; }
+  .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ABOUT */
+  #about { border-top: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem; }
+  .about-text { color: var(--muted); line-height: 1.8; }
+  .about-stats { display: flex; flex-direction: column; gap: 1.5rem; }
+  .stat { border-left: 2px solid var(--accent); padding-left: 1rem; }
+  .stat-num { font-size: 2rem; font-weight: 600; color: var(--text); letter-spacing: -0.03em; }
+  .stat-label { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+
+  /* SKILLS */
+  #skills { border-top: 1px solid var(--border); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+  .skill-card h4 { font-size: 12px; font-family: var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-pill { font-size: 12px; padding: 3px 9px; border-radius: 4px; background: var(--tag-bg); color: var(--text); }
+
+  /* CERTS */
+  #certifications { border-top: 1px solid var(--border); }
+  .certs-list { display: flex; flex-direction: column; gap: 1px; margin-top: 2rem; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .cert-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; background: var(--surface); gap: 1rem; }
+  .cert-item:not(:last-child) { border-bottom: 1px solid var(--border); }
+  .cert-badge { width: 36px; height: 36px; border-radius: 8px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 500; flex-shrink: 0; }
+  .cert-info { flex: 1; }
+  .cert-name { font-weight: 500; font-size: 14px; }
+  .cert-org { font-size: 12px; color: var(--muted); }
+  .cert-year { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+  /* PROJECTS */
+  #projects { border-top: 1px solid var(--border); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; transition: border-color 0.2s; }
+  .project-card:hover { border-color: var(--accent); }
+  .project-type { font-family: var(--mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
+  .project-title { font-weight: 600; font-size: 15px; }
+  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .project-link { margin-top: auto; font-size: 12px; font-family: var(--mono); color: var(--accent); }
+
+  /* RESEARCH */
+  #research { border-top: 1px solid var(--border); }
+  .research-list { display: flex; flex-direction: column; gap: 1px; margin-top: 2rem; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .research-item { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.25rem; background: var(--surface); gap: 1rem; transition: background 0.15s; }
+  .research-item:hover { background: var(--accent-light); }
+  .research-item:not(:last-child) { border-bottom: 1px solid var(--border); }
+  .research-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--tag-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .research-meta { flex: 1; }
+  .research-title { font-weight: 500; font-size: 14px; }
+  .research-date { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .research-dl { font-size: 12px; font-family: var(--mono); color: var(--accent); white-space: nowrap; cursor: pointer; }
+
+  /* BLOG */
+  #blog { border-top: 1px solid var(--border); }
+  .blog-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .blog-item { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+  .blog-item:last-child { border-bottom: none; }
+  .blog-date { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 0.4rem; }
+  .blog-title { font-weight: 600; font-size: 16px; margin-bottom: 0.4rem; }
+  .blog-excerpt { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* CONTACT */
+  #contact { border-top: 1px solid var(--border); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link-item { display: flex; align-items: center; gap: 10px; }
+  .contact-label { font-family: var(--mono); font-size: 12px; color: var(--muted); width: 80px; flex-shrink: 0; }
+  .contact-value { font-size: 14px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 12px; color: var(--muted); font-family: var(--mono); }
+
+  /* ADMIN OVERLAY */
+  #admin-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(26,25,22,0.6); align-items: center; justify-content: center;
+  }
+  #admin-overlay.active { display: flex; }
+  .admin-panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; width: min(680px, 95vw); max-height: 90vh;
+    overflow-y: auto; padding: 0;
+  }
+  .admin-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--surface); z-index: 10;
+  }
+  .admin-header h3 { font-family: var(--mono); font-size: 14px; color: var(--accent); }
+  .admin-close { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--muted); line-height: 1; }
+  .admin-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); padding: 0 1.5rem; overflow-x: auto; }
+  .admin-tab { padding: 0.75rem 1rem; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; color: var(--muted); white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--sans); transition: all 0.15s; }
+  .admin-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .admin-body { padding: 1.5rem; }
+  .admin-pane { display: none; }
+  .admin-pane.active { display: block; }
+
+  /* FORM STYLES */
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 12px; font-family: var(--mono); color: var(--muted); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: 8px 12px; border: 1px solid var(--border);
+    border-radius: 8px; font-size: 14px; font-family: var(--sans);
+    background: var(--bg); color: var(--text); outline: none;
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field textarea:focus { border-color: var(--accent); }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .save-btn { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--sans); }
+  .save-btn:hover { background: #15412f; }
+  .del-btn { padding: 6px 12px; background: #fff5f5; color: var(--danger); border: 1px solid #ffd6d6; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: var(--sans); }
+  .add-btn { padding: 7px 14px; background: var(--accent-light); color: var(--accent); border: 1px solid #b5e0c8; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--sans); margin-bottom: 1rem; }
+  .item-row { display: flex; align-items: flex-start; gap: 8px; padding: 10px; background: var(--bg); border-radius: 8px; margin-bottom: 8px; }
+  .item-row .item-fields { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .success-msg { font-size: 12px; color: var(--accent); font-family: var(--mono); margin-top: 8px; display: none; }
+
+  /* LOGIN */
+  #login-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(26,25,22,0.7); align-items: center; justify-content: center;
+  }
+  #login-overlay.active { display: flex; }
+  .login-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; width: 320px; }
+  .login-box h3 { font-family: var(--mono); font-size: 14px; color: var(--accent); margin-bottom: 1.25rem; }
+  .login-error { font-size: 12px; color: var(--danger); margin-top: 8px; display: none; }
+
+  /* Upload area */
+  .upload-area {
+    border: 2px dashed var(--border); border-radius: 10px; padding: 1.5rem;
+    text-align: center; color: var(--muted); font-size: 13px; cursor: pointer;
+    transition: border-color 0.2s; margin-bottom: 1rem;
+  }
+  .upload-area:hover { border-color: var(--accent); color: var(--accent); }
+  .upload-area input { display: none; }
+
+  @media (max-width: 600px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    section { padding: 3rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo" id="nav-name">sec/portfolio</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="admin-btn" onclick="openLogin()">⚙ admin</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="section-label">Cybersecurity Consultant</p>
+  <h1 id="hero-name">Your Name Here</h1>
+  <p class="hero-subtitle" id="hero-tagline">Freelance cybersecurity consultant specializing in penetration testing, threat analysis, and security architecture for organizations of all sizes.</p>
+  <div class="hero-tags" id="hero-tags"></div>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in touch</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View work</button>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About</p>
+  <h2>Who I am</h2>
+  <div class="about-grid">
+    <p class="about-text" id="about-text">Loading...</p>
+    <div class="about-stats" id="about-stats"></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Expertise</p>
+  <h2>Skills & Tools</h2>
+  <div class="skills-grid" id="skills-grid"></div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="section-label">Credentials</p>
+  <h2>Certifications</h2>
+  <div class="certs-list" id="certs-list"></div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Work</p>
+  <h2>Projects & CTF Writeups</h2>
+  <div class="projects-grid" id="projects-grid"></div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <p class="section-label">Research</p>
+  <h2>Research Studies</h2>
+  <p style="color:var(--muted);font-size:13px;margin-top:0.5rem;margin-bottom:0;">Published research papers and security studies.</p>
+  <div class="research-list" id="research-list" style="margin-top:1.5rem;"></div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <p class="section-label">Writing</p>
+  <h2>Blog & Writeups</h2>
+  <div class="blog-list" id="blog-list"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <h2>Let's work together</h2>
+  <div class="contact-grid">
+    <div class="contact-links" id="contact-links"></div>
+    <div>
+      <p style="color:var(--muted);font-size:14px;line-height:1.8;" id="contact-note">Available for freelance engagements, security consulting, and advisory roles. Reach out through any of the channels listed.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span id="footer-name">Your Name</span> &nbsp;·&nbsp; Cybersecurity Consultant &nbsp;·&nbsp; <span id="footer-year"></span>
+</footer>
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay">
+  <div class="login-box">
+    <h3>// admin access</h3>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="save-btn" onclick="doLogin()">Login</button>
+      <button class="btn btn-ghost" onclick="closeLogin()" style="font-size:13px;padding:7px 16px;">Cancel</button>
+    </div>
+    <p class="login-error" id="login-error">Incorrect password.</p>
+    <p style="font-size:11px;color:var(--muted);margin-top:1rem;font-family:var(--mono);">Default password: admin123 (change in admin panel)</p>
+  </div>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h3>// portfolio admin</h3>
+      <button class="admin-close" onclick="closeAdmin()">×</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('tab-hero')">Hero</button>
+      <button class="admin-tab" onclick="switchTab('tab-about')">About</button>
+      <button class="admin-tab" onclick="switchTab('tab-skills')">Skills</button>
+      <button class="admin-tab" onclick="switchTab('tab-certs')">Certs</button>
+      <button class="admin-tab" onclick="switchTab('tab-projects')">Projects</button>
+      <button class="admin-tab" onclick="switchTab('tab-research')">Research</button>
+      <button class="admin-tab" onclick="switchTab('tab-blog')">Blog</button>
+      <button class="admin-tab" onclick="switchTab('tab-contact')">Contact</button>
+      <button class="admin-tab" onclick="switchTab('tab-settings')">Settings</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- HERO TAB -->
+      <div class="admin-pane active" id="tab-hero">
+        <div class="field"><label>Full Name</label><input type="text" id="a-name" placeholder="Jane Doe"/></div>
+        <div class="field"><label>Tagline / Subtitle</label><textarea id="a-tagline" rows="3"></textarea></div>
+        <div class="field"><label>Specialty Tags (comma-separated)</label><input type="text" id="a-tags" placeholder="Penetration Testing, OSINT, Red Team"/></div>
+        <button class="save-btn" onclick="saveHero()">Save Hero</button>
+        <p class="success-msg" id="hero-ok">Saved!</p>
+      </div>
+
+      <!-- ABOUT TAB -->
+      <div class="admin-pane" id="tab-about">
+        <div class="field"><label>About Text</label><textarea id="a-about" rows="5"></textarea></div>
+        <p style="font-size:12px;font-family:var(--mono);color:var(--muted);margin-bottom:1rem;">Stats (e.g. "12+ Years Experience")</p>
+        <div id="stats-rows"></div>
+        <button class="add-btn" onclick="addStatRow()">+ Add stat</button>
+        <button class="save-btn" onclick="saveAbout()">Save About</button>
+        <p class="success-msg" id="about-ok">Saved!</p>
+      </div>
+
+      <!-- SKILLS TAB -->
+      <div class="admin-pane" id="tab-skills">
+        <p style="font-size:12px;font-family:var(--mono);color:var(--muted);margin-bottom:1rem;">Each category has a name and comma-separated skills.</p>
+        <div id="skills-rows"></div>
+        <button class="add-btn" onclick="addSkillRow()">+ Add category</button>
+        <button class="save-btn" onclick="saveSkills()">Save Skills</button>
+        <p class="success-msg" id="skills-ok">Saved!</p>
+      </div>
+
+      <!-- CERTS TAB -->
+      <div class="admin-pane" id="tab-certs">
+        <div id="certs-rows"></div>
+        <button class="add-btn" onclick="addCertRow()">+ Add certification</button>
+        <button class="save-btn" onclick="saveCerts()">Save Certs</button>
+        <p class="success-msg" id="certs-ok">Saved!</p>
+      </div>
+
+      <!-- PROJECTS TAB -->
+      <div class="admin-pane" id="tab-projects">
+        <div id="projects-rows"></div>
+        <button class="add-btn" onclick="addProjectRow()">+ Add project</button>
+        <button class="save-btn" onclick="saveProjects()">Save Projects</button>
+        <p class="success-msg" id="projects-ok">Saved!</p>
+      </div>
+
+      <!-- RESEARCH TAB -->
+      <div class="admin-pane" id="tab-research">
+        <p style="font-size:12px;font-family:var(--mono);color:var(--muted);margin-bottom:1rem;">Upload PDFs or link to hosted documents.</p>
+        <div class="upload-area" onclick="document.getElementById('file-upload').click()">
+          <input type="file" id="file-upload" accept=".pdf,.doc,.docx" multiple onchange="handleFileUpload(event)"/>
+          <p>Click to upload research documents (PDF/DOC)</p>
+          <p style="font-size:11px;margin-top:4px;">Files are stored as links — paste URL if hosted elsewhere</p>
+        </div>
+        <div id="research-rows"></div>
+        <button class="add-btn" onclick="addResearchRow()">+ Add research entry</button>
+        <button class="save-btn" onclick="saveResearch()">Save Research</button>
+        <p class="success-msg" id="research-ok">Saved!</p>
+      </div>
+
+      <!-- BLOG TAB -->
+      <div class="admin-pane" id="tab-blog">
+        <div id="blog-rows"></div>
+        <button class="add-btn" onclick="addBlogRow()">+ Add post</button>
+        <button class="save-btn" onclick="saveBlog()">Save Blog</button>
+        <p class="success-msg" id="blog-ok">Saved!</p>
+      </div>
+
+      <!-- CONTACT TAB -->
+      <div class="admin-pane" id="tab-contact">
+        <div id="contact-rows"></div>
+        <button class="add-btn" onclick="addContactRow()">+ Add link</button>
+        <div class="field" style="margin-top:1rem;"><label>Contact note</label><textarea id="a-contact-note" rows="3"></textarea></div>
+        <button class="save-btn" onclick="saveContact()">Save Contact</button>
+        <p class="success-msg" id="contact-ok">Saved!</p>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="admin-pane" id="tab-settings">
+        <div class="field"><label>Change Admin Password</label><input type="password" id="a-new-pw" placeholder="New password"/></div>
+        <div class="field"><label>Confirm Password</label><input type="password" id="a-confirm-pw" placeholder="Confirm new password"/></div>
+        <button class="save-btn" onclick="changePassword()">Change Password</button>
+        <p class="success-msg" id="pw-ok">Password updated!</p>
+        <p style="font-size:12px;color:var(--danger);margin-top:6px;display:none;" id="pw-err">Passwords don't match.</p>
+        <hr style="border:none;border-top:1px solid var(--border);margin:1.5rem 0;"/>
+        <button class="del-btn" onclick="if(confirm('Reset ALL portfolio data?'))resetAll()">Reset all data</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- STORAGE HELPERS ----
+const STORE_KEY = 'cyberfolio_data';
+const PW_KEY = 'cyberfolio_pw';
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || defaultData(); }
+  catch(e) { return defaultData(); }
+}
+function saveData(d) { localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+function getPassword() { return localStorage.getItem(PW_KEY) || 'admin123'; }
+function setPassword(p) { localStorage.setItem(PW_KEY, p); }
+
+function defaultData() {
+  return {
+    hero: { name: 'Your Name', tagline: 'Freelance cybersecurity consultant specializing in penetration testing, threat analysis, and security architecture for organizations of all sizes.', tags: 'Penetration Testing,OSINT,Red Team,Security Audits' },
+    about: { text: 'I am a cybersecurity consultant with extensive experience helping businesses identify vulnerabilities and build resilient security postures. My work spans red teaming, security architecture reviews, incident response, and training.', stats: [{num:'5+', label:'Years experience'},{num:'30+',label:'Clients secured'},{num:'100+',label:'Vulns discovered'}] },
+    skills: [
+      { category: 'Offensive Security', items: 'Metasploit,Burp Suite,Nmap,SQLMap,Hydra' },
+      { category: 'Forensics & Analysis', items: 'Wireshark,Autopsy,Volatility,FTK Imager' },
+      { category: 'Cloud & Infrastructure', items: 'AWS Security,Azure Defender,Kubernetes,Terraform' },
+      { category: 'Languages & Scripting', items: 'Python,Bash,PowerShell,Go' }
+    ],
+    certs: [
+      { name: 'Offensive Security Certified Professional', org: 'Offensive Security', year: '2023', abbr: 'OSCP' },
+      { name: 'Certified Ethical Hacker', org: 'EC-Council', year: '2022', abbr: 'CEH' },
+      { name: 'CompTIA Security+', org: 'CompTIA', year: '2021', abbr: 'S+' }
+    ],
+    projects: [
+      { type: 'CTF Writeup', title: 'HackTheBox — Forest Machine', desc: 'Walkthrough of Active Directory exploitation including Kerberoasting and AS-REP roasting.', tags: 'AD,Kerberos,Windows', link: '#' },
+      { type: 'Engagement', title: 'Web App Pentest — FinTech Client', desc: 'Full-scope penetration test uncovering IDOR, broken authentication, and sensitive data exposure.', tags: 'OWASP,API,Auth', link: '#' },
+      { type: 'Tool', title: 'ReconBot', desc: 'Python tool for automated subdomain enumeration, port scanning, and CVE correlation.', tags: 'Python,OSINT,Automation', link: '#' }
+    ],
+    research: [
+      { title: 'Zero Trust Architecture in SMEs', date: '2024-03', url: '#', desc: 'Analysis of ZTA implementation challenges in small and medium enterprises.' },
+      { title: 'Phishing Campaign Analysis 2023', date: '2023-11', url: '#', desc: 'A study of phishing vectors targeting financial institutions in West Africa.' }
+    ],
+    blog: [
+      { date: '2024-05-10', title: 'How I cracked a WPA2 handshake in under 10 minutes', excerpt: 'A practical walkthrough of WPA2 vulnerabilities and what it means for enterprise Wi-Fi security.', url: '#' },
+      { date: '2024-03-22', title: 'OSINT techniques I use in every engagement', excerpt: 'My go-to passive reconnaissance workflow before touching a single tool.', url: '#' }
+    ],
+    contact: [
+      { label: 'email', value: 'you@example.com', url: 'mailto:you@example.com' },
+      { label: 'linkedin', value: 'linkedin.com/in/you', url: 'https://linkedin.com' },
+      { label: 'github', value: 'github.com/you', url: 'https://github.com' },
+      { label: 'twitter', value: '@yourhandle', url: 'https://twitter.com' }
+    ],
+    contactNote: 'Available for freelance engagements, security consulting, and advisory roles. Reach out through any of the channels listed.'
+  };
+}
+
+// ---- RENDER PORTFOLIO ----
+function render() {
+  const d = loadData();
+  // Hero
+  document.getElementById('hero-name').textContent = d.hero.name;
+  document.getElementById('hero-tagline').textContent = d.hero.tagline;
+  document.getElementById('nav-name').textContent = 'sec/' + d.hero.name.toLowerCase().replace(/\s+/g,'');
+  document.getElementById('footer-name').textContent = d.hero.name;
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+  const tagsEl = document.getElementById('hero-tags');
+  tagsEl.innerHTML = '';
+  d.hero.tags.split(',').map(t=>t.trim()).filter(Boolean).forEach(t => {
+    const s = document.createElement('span'); s.className = 'tag green'; s.textContent = t; tagsEl.appendChild(s);
+  });
+  // About
+  document.getElementById('about-text').textContent = d.about.text;
+  const statsEl = document.getElementById('about-stats');
+  statsEl.innerHTML = '';
+  (d.about.stats||[]).forEach(s => {
+    statsEl.innerHTML += `<div class="stat"><div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div></div>`;
+  });
+  // Skills
+  const sg = document.getElementById('skills-grid');
+  sg.innerHTML = '';
+  (d.skills||[]).forEach(sk => {
+    sg.innerHTML += `<div class="skill-card"><h4>${sk.category}</h4><div class="skill-pills">${sk.items.split(',').map(i=>`<span class="skill-pill">${i.trim()}</span>`).join('')}</div></div>`;
+  });
+  // Certs
+  const cl = document.getElementById('certs-list');
+  cl.innerHTML = '';
+  (d.certs||[]).forEach(c => {
+    cl.innerHTML += `<div class="cert-item"><div class="cert-badge">${c.abbr}</div><div class="cert-info"><div class="cert-name">${c.name}</div><div class="cert-org">${c.org}</div></div><div class="cert-year">${c.year}</div></div>`;
+  });
+  // Projects
+  const pg = document.getElementById('projects-grid');
+  pg.innerHTML = '';
+  (d.projects||[]).forEach(p => {
+    pg.innerHTML += `<div class="project-card"><div class="project-type">${p.type}</div><div class="project-title">${p.title}</div><div class="project-desc">${p.desc}</div><div class="project-tags">${p.tags.split(',').map(t=>`<span class="tag">${t.trim()}</span>`).join('')}</div><a class="project-link" href="${p.link}" target="_blank">View →</a></div>`;
+  });
+  // Research
+  const rl = document.getElementById('research-list');
+  rl.innerHTML = '';
+  if(!(d.research||[]).length) { rl.innerHTML = '<div style="padding:1.5rem;color:var(--muted);font-size:13px;background:var(--surface);">No research entries yet.</div>'; }
+  (d.research||[]).forEach(r => {
+    rl.innerHTML += `<div class="research-item"><div class="research-icon"><svg width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div class="research-meta"><div class="research-title">${r.title}</div><div class="research-date">${r.date} · ${r.desc}</div></div><a class="research-dl" href="${r.url}" target="_blank">Download →</a></div>`;
+  });
+  // Blog
+  const bl = document.getElementById('blog-list');
+  bl.innerHTML = '';
+  if(!(d.blog||[]).length) { bl.innerHTML = '<p style="color:var(--muted);font-size:13px;">No posts yet.</p>'; }
+  (d.blog||[]).forEach(b => {
+    bl.innerHTML += `<div class="blog-item"><div class="blog-date">${b.date}</div><div class="blog-title"><a href="${b.url}" target="_blank">${b.title}</a></div><div class="blog-excerpt">${b.excerpt}</div></div>`;
+  });
+  // Contact
+  const cl2 = document.getElementById('contact-links');
+  cl2.innerHTML = '';
+  (d.contact||[]).forEach(c => {
+    cl2.innerHTML += `<div class="contact-link-item"><span class="contact-label">${c.label}</span><a class="contact-value" href="${c.url}" target="_blank">${c.value}</a></div>`;
+  });
+  document.getElementById('contact-note').textContent = d.contactNote || '';
+}
+
+// ---- LOGIN ----
+function openLogin() { document.getElementById('login-overlay').classList.add('active'); setTimeout(()=>document.getElementById('login-pw').focus(),100); }
+function closeLogin() { document.getElementById('login-overlay').classList.remove('active'); document.getElementById('login-error').style.display='none'; document.getElementById('login-pw').value=''; }
+function doLogin() {
+  const pw = document.getElementById('login-pw').value;
+  if(pw === getPassword()) { closeLogin(); openAdmin(); }
+  else { document.getElementById('login-error').style.display='block'; }
+}
+
+// ---- ADMIN ----
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('active');
+  populateAdmin();
+}
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('active'); }
+
+function switchTab(id) {
+  document.querySelectorAll('.admin-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function populateAdmin() {
+  const d = loadData();
+  // Hero
+  document.getElementById('a-name').value = d.hero.name;
+  document.getElementById('a-tagline').value = d.hero.tagline;
+  document.getElementById('a-tags').value = d.hero.tags;
+  // About
+  document.getElementById('a-about').value = d.about.text;
+  renderStatRows(d.about.stats||[]);
+  // Skills
+  renderSkillRows(d.skills||[]);
+  // Certs
+  renderCertRows(d.certs||[]);
+  // Projects
+  renderProjectRows(d.projects||[]);
+  // Research
+  renderResearchRows(d.research||[]);
+  // Blog
+  renderBlogRows(d.blog||[]);
+  // Contact
+  renderContactRows(d.contact||[]);
+  document.getElementById('a-contact-note').value = d.contactNote||'';
+}
+
+// HERO SAVE
+function saveHero() {
+  const d = loadData();
+  d.hero.name = document.getElementById('a-name').value;
+  d.hero.tagline = document.getElementById('a-tagline').value;
+  d.hero.tags = document.getElementById('a-tags').value;
+  saveData(d); render();
+  flash('hero-ok');
+}
+
+// ABOUT
+function renderStatRows(stats) {
+  const el = document.getElementById('stats-rows');
+  el.innerHTML = '';
+  stats.forEach((s,i) => {
+    el.innerHTML += `<div class="item-row"><div class="item-fields"><div style="display:flex;gap:6px;"><input type="text" value="${s.num}" placeholder="12+" data-stat="${i}" data-field="num" oninput=""/><input type="text" value="${s.label}" placeholder="Years experience" data-stat="${i}" data-field="label" oninput=""/></div></div><button class="del-btn" onclick="delStat(${i})">✕</button></div>`;
+  });
+}
+function addStatRow() { const d=loadData(); d.about.stats.push({num:'',label:''}); saveData(d); renderStatRows(d.about.stats); }
+function delStat(i) { const d=loadData(); d.about.stats.splice(i,1); saveData(d); renderStatRows(d.about.stats); }
+function saveAbout() {
+  const d=loadData();
+  d.about.text = document.getElementById('a-about').value;
+  const rows = document.querySelectorAll('#stats-rows .item-row');
+  d.about.stats = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    d.about.stats.push({num:inputs[0].value, label:inputs[1].value});
+  });
+  saveData(d); render(); flash('about-ok');
+}
+
+// SKILLS
+function renderSkillRows(skills) {
+  const el = document.getElementById('skills-rows'); el.innerHTML='';
+  skills.forEach((s,i) => {
+    el.innerHTML += `<div class="item-row"><div class="item-fields"><input type="text" value="${s.category}" placeholder="Category name"/><input type="text" value="${s.items}" placeholder="Skill1,Skill2,Skill3"/></div><button class="del-btn" onclick="delSkill(${i})">✕</button></div>`;
+  });
+}
+function addSkillRow() { const d=loadData(); d.skills.push({category:'',items:''}); saveData(d); renderSkillRows(d.skills); }
+function delSkill(i) { const d=loadData(); d.skills.splice(i,1); saveData(d); renderSkillRows(d.skills); }
+function saveSkills() {
+  const d=loadData();
+  const rows=document.querySelectorAll('#skills-rows .item-row');
+  d.skills=[];
+  rows.forEach(row=>{const ins=row.querySelectorAll('input');d.skills.push({category:ins[0].value,items:ins[1].value});});
+  saveData(d);render();flash('skills-ok');
+}
+
+// CERTS
+function renderCertRows(certs) {
+  const el=document.getElementById('certs-rows');el.innerHTML='';
+  certs.forEach((c,i)=>{
+    el.innerHTML+=`<div class="item-row"><div class="item-fields"><div class="field-row"><input type="text" value="${c.name}" placeholder="Full cert name"/><input type="text" value="${c.abbr}" placeholder="Abbr e.g. OSCP"/></div><div class="field-row"><input type="text" value="${c.org}" placeholder="Issuing org"/><input type="text" value="${c.year}" placeholder="Year"/></div></div><button class="del-btn" onclick="delCert(${i})">✕</button></div>`;
+  });
+}
+function addCertRow(){const d=loadData();d.certs.push({name:'',org:'',year:'',abbr:''});saveData(d);renderCertRows(d.certs);}
+function delCert(i){const d=loadData();d.certs.splice(i,1);saveData(d);renderCertRows(d.certs);}
+function saveCerts(){
+  const d=loadData();const rows=document.querySelectorAll('#certs-rows .item-row');d.certs=[];
+  rows.forEach(row=>{const ins=row.querySelectorAll('input');d.certs.push({name:ins[0].value,abbr:ins[1].value,org:ins[2].value,year:ins[3].value});});
+  saveData(d);render();flash('certs-ok');
+}
+
+// PROJECTS
+function renderProjectRows(projects){
+  const el=document.getElementById('projects-rows');el.innerHTML='';
+  projects.forEach((p,i)=>{
+    el.innerHTML+=`<div class="item-row"><div class="item-fields"><div class="field-row"><input type="text" value="${p.type}" placeholder="Type (CTF, Engagement, Tool)"/><input type="text" value="${p.title}" placeholder="Project title"/></div><textarea rows="2" placeholder="Description">${p.desc}</textarea><div class="field-row"><input type="text" value="${p.tags}" placeholder="tag1,tag2"/><input type="text" value="${p.link}" placeholder="Link URL"/></div></div><button class="del-btn" onclick="delProject(${i})">✕</button></div>`;
+  });
+}
+function addProjectRow(){const d=loadData();d.projects.push({type:'',title:'',desc:'',tags:'',link:'#'});saveData(d);renderProjectRows(d.projects);}
+function delProject(i){const d=loadData();d.projects.splice(i,1);saveData(d);renderProjectRows(d.projects);}
+function saveProjects(){
+  const d=loadData();const rows=document.querySelectorAll('#projects-rows .item-row');d.projects=[];
+  rows.forEach(row=>{
+    const ins=row.querySelectorAll('input');const ta=row.querySelector('textarea');
+    d.projects.push({type:ins[0].value,title:ins[1].value,desc:ta.value,tags:ins[2].value,link:ins[3].value});
+  });
+  saveData(d);render();flash('projects-ok');
+}
+
+// RESEARCH
+function renderResearchRows(research){
+  const el=document.getElementById('research-rows');el.innerHTML='';
+  research.forEach((r,i)=>{
+    el.innerHTML+=`<div class="item-row"><div class="item-fields"><input type="text" value="${r.title}" placeholder="Research title"/><div class="field-row"><input type="text" value="${r.date}" placeholder="Date (2024-03)"/><input type="text" value="${r.url}" placeholder="Document URL or #"/></div><input type="text" value="${r.desc}" placeholder="Short description"/></div><button class="del-btn" onclick="delResearch(${i})">✕</button></div>`;
+  });
+}
+function addResearchRow(){const d=loadData();(d.research=d.research||[]).push({title:'',date:'',url:'#',desc:''});saveData(d);renderResearchRows(d.research);}
+function delResearch(i){const d=loadData();d.research.splice(i,1);saveData(d);renderResearchRows(d.research);}
+function saveResearch(){
+  const d=loadData();const rows=document.querySelectorAll('#research-rows .item-row');d.research=[];
+  rows.forEach(row=>{const ins=row.querySelectorAll('input');d.research.push({title:ins[0].value,date:ins[1].value,url:ins[2].value,desc:ins[3].value});});
+  saveData(d);render();flash('research-ok');
+}
+function handleFileUpload(e){
+  const files=e.target.files;
+  if(!files.length)return;
+  const d=loadData();
+  Array.from(files).forEach(f=>{
+    const url=URL.createObjectURL(f);
+    (d.research=d.research||[]).push({title:f.name.replace(/\.[^.]+$/,''),date:new Date().toISOString().slice(0,7),url:url,desc:'Uploaded document'});
+  });
+  saveData(d);renderResearchRows(d.research);
+}
+
+// BLOG
+function renderBlogRows(blog){
+  const el=document.getElementById('blog-rows');el.innerHTML='';
+  blog.forEach((b,i)=>{
+    el.innerHTML+=`<div class="item-row"><div class="item-fields"><input type="text" value="${b.title}" placeholder="Post title"/><div class="field-row"><input type="text" value="${b.date}" placeholder="Date (YYYY-MM-DD)"/><input type="text" value="${b.url}" placeholder="Post URL"/></div><textarea rows="2" placeholder="Excerpt">${b.excerpt}</textarea></div><button class="del-btn" onclick="delBlog(${i})">✕</button></div>`;
+  });
+}
+function addBlogRow(){const d=loadData();(d.blog=d.blog||[]).push({date:'',title:'',excerpt:'',url:'#'});saveData(d);renderBlogRows(d.blog);}
+function delBlog(i){const d=loadData();d.blog.splice(i,1);saveData(d);renderBlogRows(d.blog);}
+function saveBlog(){
+  const d=loadData();const rows=document.querySelectorAll('#blog-rows .item-row');d.blog=[];
+  rows.forEach(row=>{const ins=row.querySelectorAll('input');const ta=row.querySelector('textarea');d.blog.push({title:ins[0].value,date:ins[1].value,url:ins[2].value,excerpt:ta.value});});
+  saveData(d);render();flash('blog-ok');
+}
+
+// CONTACT
+function renderContactRows(contact){
+  const el=document.getElementById('contact-rows');el.innerHTML='';
+  contact.forEach((c,i)=>{
+    el.innerHTML+=`<div class="item-row"><div class="item-fields"><div class="field-row"><input type="text" value="${c.label}" placeholder="Label (email, github...)"/><input type="text" value="${c.value}" placeholder="Display value"/></div><input type="text" value="${c.url}" placeholder="URL (mailto:... or https://...)"/></div><button class="del-btn" onclick="delContact(${i})">✕</button></div>`;
+  });
+}
+function addContactRow(){const d=loadData();(d.contact=d.contact||[]).push({label:'',value:'',url:''});saveData(d);renderContactRows(d.contact);}
+function delContact(i){const d=loadData();d.contact.splice(i,1);saveData(d);renderContactRows(d.contact);}
+function saveContact(){
+  const d=loadData();const rows=document.querySelectorAll('#contact-rows .item-row');d.contact=[];
+  rows.forEach(row=>{const ins=row.querySelectorAll('input');d.contact.push({label:ins[0].value,value:ins[1].value,url:ins[2].value});});
+  d.contactNote=document.getElementById('a-contact-note').value;
+  saveData(d);render();flash('contact-ok');
+}
+
+// SETTINGS
+function changePassword(){
+  const p1=document.getElementById('a-new-pw').value;
+  const p2=document.getElementById('a-confirm-pw').value;
+  document.getElementById('pw-err').style.display='none';
+  if(p1!==p2){document.getElementById('pw-err').style.display='block';return;}
+  if(!p1.trim()){return;}
+  setPassword(p1);
+  document.getElementById('a-new-pw').value='';
+  document.getElementById('a-confirm-pw').value='';
+  flash('pw-ok');
+}
+function resetAll(){saveData(defaultData());populateAdmin();render();closeAdmin();}
+
+function flash(id){
+  const el=document.getElementById(id);
+  el.style.display='block';
+  setTimeout(()=>{el.style.display='none';},2000);
+}
+
+// Close overlay on outside click
+document.getElementById('admin-overlay').addEventListener('click',function(e){if(e.target===this)closeAdmin();});
+document.getElementById('login-overlay').addEventListener('click',function(e){if(e.target===this)closeLogin();});
+
+render();
+</script>
+</body>
+</html>
