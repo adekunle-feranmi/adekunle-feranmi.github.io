@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adekunle Feranmi — Cybersecurity Consultant</title>
+  <meta name="description" content="Cybersecurity Consultant, Penetration Tester and Security Educator with 5+ years of experience. Founder of HackerTreats.">
+  <meta property="og:title" content="Adekunle Feranmi — Cybersecurity">
+  <meta property="og:description" content="Breaking systems to build better ones.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-logo">feranmi<span>.sec</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <a href="admin/index.html" class="nav-admin">⌗ Admin</a>
+    <button class="menu-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="container hero-content">
+    <div class="hero-status">
+      <span class="status-dot"></span>
+      Available for engagements
+    </div>
+    <h1 class="hero-name">
+      <span id="heroName"></span><span class="cursor"></span>
+    </h1>
+    <p class="hero-role" id="heroRole"></p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Work →</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+      <a href="Feranmi_Adekunle_Resume.pdf" download class="btn-outline">↓ Resume</a>
+    </div>
+    <div class="stats-row" id="statsRow"></div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">About</div>
+    <h2 class="section-title">Who I am</h2>
+    <div class="about-grid">
+      <div class="about-text fade-up" id="aboutText"></div>
+      <div class="skills-grid fade-up" id="skillsGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">Work History</h2>
+    <div class="exp-list fade-up" id="expList"></div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Work</div>
+    <h2 class="section-title">Projects & CTF Writeups</h2>
+    <div class="projects-grid" id="projectsGrid"></div>
+  </div>
+</section>
+
+<!-- Progress / Updates -->
+<section id="progress">
+  <div class="container">
+    <div class="section-label">Updates</div>
+    <h2 class="section-title">Progress Log</h2>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:32px;margin-top:-24px;">Real-time updates on ongoing projects, research, and learning.</p>
+    <div id="progressContainer"></div>
+  </div>
+</section>
+
+<!-- Coursework + Certs -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label">Credentials</div>
+    <h2 class="section-title">Certifications & Courses</h2>
+
+    <div style="margin-bottom:48px;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:28px 32px;" class="fade-up">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">Course Work</div>
+        <div style="font-family:var(--sans);font-size:18px;font-weight:700;margin-bottom:8px;" id="courseworkTitle"></div>
+        <div style="color:var(--text2);font-size:13px;margin-bottom:16px;" id="courseworkDesc"></div>
+        <div class="skill-tags" id="coursesList"></div>
+      </div>
+    </div>
+
+    <div class="certs-grid fade-up" id="certsGrid"></div>
+  </div>
+</section>
+
+<!-- Research -->
+<section id="research">
+  <div class="container">
+    <div class="section-label">Research</div>
+    <h2 class="section-title">Publications & Research</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;" id="researchList" class="fade-up"></div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label">Contact</div>
+        <h2 class="contact-tagline">Let's work <span class="accent">together.</span></h2>
+        <p class="contact-desc" id="contactDesc"></p>
+      </div>
+      <div class="contact-links" id="contactLinks"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <span><span class="footer-logo">feranmi.sec</span> — Cybersecurity Consultant</span>
+  <span id="footerYear"></span>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Feranmi Portfolio</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">feranmi.sec</div>
+    <div class="login-sub">Admin Panel — Restricted Access</div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="loginPass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn" onclick="doLogin()">Login →</button>
+    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:16px;">Default password: <code style="color:var(--green)">admin123</code> — change in Settings</div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-text">feranmi.sec</div>
+        <div class="sidebar-logo-sub">Admin Panel</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="showPanel('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item" onclick="showPanel('personal')"><i class="ti ti-user"></i> Personal Info</div>
+        <div class="nav-item" onclick="showPanel('projects')"><i class="ti ti-code"></i> Projects</div>
+        <div class="nav-item" onclick="showPanel('progress')"><i class="ti ti-trending-up"></i> Progress Log</div>
+        <div class="nav-item" onclick="showPanel('experience')"><i class="ti ti-briefcase"></i> Experience</div>
+        <div class="nav-item" onclick="showPanel('skills')"><i class="ti ti-tools"></i> Skills</div>
+        <div class="nav-item" onclick="showPanel('certifications')"><i class="ti ti-certificate"></i> Certifications</div>
+        <div class="nav-item" onclick="showPanel('research')"><i class="ti ti-microscope"></i> Research</div>
+        <div class="nav-item" onclick="showPanel('settings')"><i class="ti ti-settings"></i> Settings</div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">Logged in as <span>admin</span></div>
+        <button class="btn-outline" onclick="doLogout()" style="width:100%">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="main-header">
+        <div>
+          <div class="main-title" id="panelTitle">Dashboard</div>
+          <div class="main-sub" id="panelSub">Overview of your portfolio</div>
+        </div>
+        <a href="../index.html" target="_blank" class="view-site-btn"><i class="ti ti-external-link"></i> View Site</a>
+      </div>
+
+      <div class="main-body">
+
+        <!-- Dashboard -->
+        <div class="panel active" id="panel-dashboard">
+          <div class="stats-overview" id="dashStats"></div>
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">Quick Actions</div></div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn-sm" onclick="showPanel('progress')">+ Add Progress Update</button>
+              <button class="btn-sm" onclick="showPanel('projects')">+ Add Project</button>
+              <button class="btn-sm" onclick="showPanel('experience')">+ Add Experience</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Recent Progress Updates</div></div>
+            <div id="dashRecentProgress"></div>
+          </div>
+        </div>
+
+        <!-- Personal Info -->
+        <div class="panel" id="panel-personal">
+          <div class="card">
+            <div class="section-divider">Identity</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="form-group"><label class="form-label">Full Name</label><input id="p_name" type="text"></div>
+              <div class="form-group"><label class="form-label">Title / Role</label><input id="p_title" type="text"></div>
+              <div class="form-group"><label class="form-label">Tagline</label><input id="p_tagline" type="text"></div>
+              <div class="form-group"><label class="form-label">Location</label><input id="p_location" type="text"></div>
+            </div>
+            <div class="section-divider">Contact</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="form-group"><label class="form-label">Email</label><input id="p_email" type="email"></div>
+              <div class="form-group"><label class="form-label">Phone</label><input id="p_phone" type="text"></div>
+              <div class="form-group"><label class="form-label">LinkedIn URL</label><input id="p_linkedin" type="text"></div>
+              <div class="form-group"><label class="form-label">GitHub URL</label><input id="p_github" type="text"></div>
+              <div class="form-group"><label class="form-label">Twitter Handle</label><input id="p_twitter" type="text"></div>
+              <div class="form-group"><label class="form-label">WhatsApp</label><input id="p_whatsapp" type="text"></div>
+            </div>
+            <div class="section-divider">Bio</div>
+            <div class="form-group"><label class="form-label">Summary</label><textarea id="p_summary" rows="5"></textarea></div>
+            <div class="form-group"><label class="form-label">Availability Note</label><textarea id="p_availability" rows="2"></textarea></div>
+            <div class="section-divider">Stats</div>
+            <div id="statsEditor"></div>
+            <button class="btn-sm" onclick="addStat()" style="margin-top:8px;">+ Add Stat</button>
+            <div style="margin-top:20px;">
+              <button class="btn" onclick="savePersonal()">Save Personal Info</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="panel" id="panel-projects">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+            <button class="btn-sm" onclick="openProjectModal()">+ New Project</button>
+          </div>
+          <div id="projectsList"></div>
+        </div>
+
+        <!-- Progress Log -->
+        <div class="panel" id="panel-progress">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+            <button class="btn-sm" onclick="openProgressModal()">+ New Update</button>
+          </div>
+          <div id="progressList"></div>
+        </div>
+
+        <!-- Experience -->
+        <div class="panel" id="panel-experience">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+            <button class="btn-sm" onclick="openExpModal()">+ New Experience</button>
+          </div>
+          <div id="expList"></div>
+        </div>
+
+        <!-- Skills -->
+        <div class="panel" id="panel-skills">
+          <div class="card">
+            <div id="skillsEditor"></div>
+            <button class="btn-sm" onclick="addSkillCategory()" style="margin-top:12px;">+ Add Category</button>
+            <div style="margin-top:20px;">
+              <button class="btn" onclick="saveSkills()">Save Skills</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="panel" id="panel-certifications">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+            <button class="btn-sm" onclick="openCertModal()">+ New Certification</button>
+          </div>
+          <div id="certsList"></div>
+        </div>
+
+        <!-- Research -->
+        <div class="panel" id="panel-research">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+            <button class="btn-sm" onclick="openResearchModal()">+ New Research</button>
+          </div>
+          <div id="researchList"></div>
+        </div>
+
+        <!-- Settings -->
+        <div class="panel" id="panel-settings">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;">Change Admin Password</div>
+            <div class="form-group"><label class="form-label">Current Password</label><input type="password" id="s_current"></div>
+            <div class="form-group"><label class="form-label">New Password</label><input type="password" id="s_new"></div>
+            <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" id="s_confirm"></div>
+            <button class="btn" style="max-width:200px;" onclick="changePassword()">Change Password</button>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:8px;">Export / Import Data</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:16px;">Export your portfolio data as JSON, or import from a backup.</div>
+            <div style="display:flex;gap:10px;">
+              <button class="btn-sm" onclick="exportData()">↓ Export JSON</button>
+              <label class="btn-sm" style="cursor:pointer;">↑ Import JSON<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:8px;color:var(--red);">Danger Zone</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:16px;">Reset all portfolio data back to defaults. This cannot be undone.</div>
+            <button class="btn-danger" onclick="resetData()">Reset All Data</button>
+          </div>
+        </div>
+
+      </div><!-- main-body -->
+    </main>
+  </div>
+</div>
+
+<!-- Modals -->
+
+<!-- Project Modal -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <div class="modal-title" id="projectModalTitle">New Project</div>
+    <input type="hidden" id="pm_id">
+    <div class="form-group"><label class="form-label">Type (e.g. TOOL, CTF WRITEUP, ENGAGEMENT)</label><input id="pm_type" type="text"></div>
+    <div class="form-group"><label class="form-label">Title</label><input id="pm_title" type="text"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea id="pm_desc" rows="3"></textarea></div>
+    <div class="form-group"><label class="form-label">Link (optional)</label><input id="pm_link" type="text" placeholder="https://..."></div>
+    <div class="form-group">
+      <label class="form-label">Tags</label>
+      <div class="tags-input-wrap">
+        <input id="pm_tag_input" type="text" placeholder="Add tag..." onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();addProjectTag()}">
+        <button class="btn-sm" onclick="addProjectTag()">Add</button>
+      </div>
+      <div class="tags-display" id="pm_tags"></div>
+    </div>
+    <div class="form-group" style="display:flex;align-items:center;gap:10px;">
+      <input type="checkbox" id="pm_featured" style="width:auto;">
+      <label for="pm_featured" class="form-label" style="margin:0;">Featured project</label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal('projectModal')">Cancel</button>
+      <button class="btn-sm" onclick="saveProject()">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Progress Modal -->
+<div class="modal-overlay" id="progressModal">
+  <div class="modal">
+    <div class="modal-title" id="progressModalTitle">New Progress Update</div>
+    <input type="hidden" id="prm_id">
+    <input type="hidden" id="prm_proj_id">
+    <div class="form-group"><label class="form-label">Project</label><select id="prm_project"></select></div>
+    <div class="form-group"><label class="form-label">Update Title</label><input id="prm_title" type="text" placeholder="e.g. Completed Phase 1 Testing"></div>
+    <div class="form-group"><label class="form-label">Details</label><textarea id="prm_text" rows="4"></textarea></div>
+    <div class="form-group"><label class="form-label">Date</label><input id="prm_date" type="date"></div>
+    <div class="form-group">
+      <label class="form-label">Progress % (leave 0 to hide bar)</label>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <input type="range" id="prm_percent" min="0" max="100" value="0" oninput="document.getElementById('prm_pct_val').textContent=this.value+'%'">
+        <span id="prm_pct_val" style="font-size:13px;color:var(--green);min-width:36px;">0%</span>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Status Label (e.g. "In Progress", "Testing")</label><input id="prm_status" type="text"></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal('progressModal')">Cancel</button>
+      <button class="btn-sm" onclick="saveProgress()">Save Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- Experience Modal -->
+<div class="modal-overlay" id="expModal">
+  <div class="modal">
+    <div class="modal-title" id="expModalTitle">New Experience</div>
+    <input type="hidden" id="em_id">
+    <div class="form-group"><label class="form-label">Job Title</label><input id="em_title" type="text"></div>
+    <div class="form-group"><label class="form-label">Company</label><input id="em_company" type="text"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group"><label class="form-label">Period</label><input id="em_period" type="text" placeholder="Jan 2024 – Present"></div>
+      <div class="form-group"><label class="form-label">Location</label><input id="em_location" type="text"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Bullet Points (one per line)</label>
+      <textarea id="em_bullets" rows="5" placeholder="Achieved X by doing Y, resulting in Z.&#10;Led a team of N people..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal('expModal')">Cancel</button>
+      <button class="btn-sm" onclick="saveExp()">Save Experience</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cert Modal -->
+<div class="modal-overlay" id="certModal">
+  <div class="modal">
+    <div class="modal-title">New Certification</div>
+    <input type="hidden" id="cm_idx">
+    <div class="form-group"><label class="form-label">Certification Name</label><input id="cm_name" type="text"></div>
+    <div class="form-group"><label class="form-label">Issuer</label><input id="cm_issuer" type="text"></div>
+    <div class="form-group"><label class="form-label">Year</label><input id="cm_year" type="text"></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal('certModal')">Cancel</button>
+      <button class="btn-sm" onclick="saveCert()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Research Modal -->
+<div class="modal-overlay" id="researchModal">
+  <div class="modal">
+    <div class="modal-title">New Research</div>
+    <input type="hidden" id="rm_idx">
+    <div class="form-group"><label class="form-label">Title</label><input id="rm_title" type="text"></div>
+    <div class="form-group"><label class="form-label">Year</label><input id="rm_year" type="text"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea id="rm_desc" rows="3"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal('researchModal')">Cancel</button>
+      <button class="btn-sm" onclick="saveResearch()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
